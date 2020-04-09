@@ -2,6 +2,9 @@ package com.example.demo.Controllers
 
 import com.example.demo.Entities.Article
 import com.example.demo.Repositories.ArticleRepository
+import com.example.demo.Services.ArticleService
+import com.example.demo.Services.IArticleService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -12,9 +15,16 @@ import javax.validation.Valid
 @RequestMapping("/api")
 class ArticleController(private val articleRepository: ArticleRepository) {
 
+    @Autowired
+    lateinit var articleService: IArticleService
+
     @GetMapping("/articles")
     fun getAllArticles(): List<Article> =
             articleRepository.findAll()
+
+    @GetMapping("/getarticlesbycontent/{content}")
+    fun getAllArticlesByContent(@PathVariable(value = "content") content: String): List<Article> =
+            articleService.GetArticleContentLike(content)
 
 
     @PostMapping("/articles")
