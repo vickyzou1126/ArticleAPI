@@ -2,6 +2,8 @@ package com.example.demo.Controllers
 
 import com.example.demo.Entities.Article
 import com.example.demo.Repositories.ArticleRepository
+import com.example.demo.Repositories.ArticleRepositoryCustom
+import com.example.demo.Repositories.ArticleRepositoryImpl
 import com.example.demo.Services.ArticleService
 import com.example.demo.Services.IArticleService
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,10 +15,18 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api")
-class ArticleController(private val articleRepository: ArticleRepository) {
+class ArticleController(private val articleRepository: ArticleRepository,
+                        private val repositoryImpl: ArticleRepositoryCustom) {
 
     @Autowired
     lateinit var articleService: IArticleService
+
+    @GetMapping("/autocreate")
+    fun autocreate(): Article {
+        println("----------")
+        return repositoryImpl.ArticleTest()
+    }
+
 
     @GetMapping("/articles")
     fun getAllArticles(): List<Article> =

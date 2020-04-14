@@ -31,6 +31,8 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
+	implementation("org.hibernate:hibernate-entitymanager:5.4.12.Final")
+	implementation("org.hibernate:hibernate-core:5.4.12.Final")
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
