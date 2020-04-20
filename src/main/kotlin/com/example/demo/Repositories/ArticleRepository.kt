@@ -11,6 +11,10 @@ public interface ArticleRepository : JpaRepository<Article, Long>
 {
     @Query("select a from Article a where lower(a.content) like lower(?1)")
     fun GetArticleContentLike(content:String):List<Article>
+
+    //query did not return a unique result
+    @Query("select a from Article a where lower(a.content) like lower(?1)")
+    fun GetArticleContentLike2(content:String):Article
 }
 
 

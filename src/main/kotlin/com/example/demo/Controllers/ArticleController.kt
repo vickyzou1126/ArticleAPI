@@ -6,7 +6,9 @@ import com.example.demo.Repositories.ArticleRepositoryCustom
 import com.example.demo.Repositories.ArticleRepositoryImpl
 import com.example.demo.Services.ArticleService
 import com.example.demo.Services.IArticleService
+import com.example.demo.events.ArticleEvent
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.event.ApplicationEventMulticaster
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -20,6 +22,17 @@ class ArticleController(private val articleRepository: ArticleRepository,
 
     @Autowired
     lateinit var articleService: IArticleService
+
+    @Autowired
+    private lateinit var applicationEventMulticaster: ApplicationEventMulticaster
+
+    @GetMapping("/testevent")
+    fun testevent(): Article {
+        var newArticle=Article()
+        var event = ArticleEvent(newArticle)
+        applicationEventMulticaster.multicastEvent(event)
+        return newArticle
+    }
 
     @GetMapping("/autocreate")
     fun autocreate(): Article {
@@ -35,6 +48,10 @@ class ArticleController(private val articleRepository: ArticleRepository,
     @GetMapping("/getarticlesbycontent/{content}")
     fun getAllArticlesByContent(@PathVariable(value = "content") content: String): List<Article> =
             articleService.GetArticleContentLike(content)
+
+    @GetMapping("/getaarticlesbycontent/{content}")
+    fun getAAllArticlesByContent(@PathVariable(value = "content") content: String): Article =
+            articleRepository.GetArticleContentLike2(content)
 
 
     @PostMapping("/articles")
